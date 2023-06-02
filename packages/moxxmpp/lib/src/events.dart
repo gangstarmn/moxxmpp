@@ -11,6 +11,7 @@ import 'package:moxxmpp/src/xeps/xep_0085.dart';
 import 'package:moxxmpp/src/xeps/xep_0334.dart';
 import 'package:moxxmpp/src/xeps/xep_0359.dart';
 import 'package:moxxmpp/src/xeps/xep_0385.dart';
+import 'package:moxxmpp/src/xeps/xep_0421.dart';
 import 'package:moxxmpp/src/xeps/xep_0424.dart';
 import 'package:moxxmpp/src/xeps/xep_0444.dart';
 import 'package:moxxmpp/src/xeps/xep_0446.dart';
@@ -101,6 +102,7 @@ class MessageEvent extends XmppEvent {
     this.messageReactions,
     this.messageProcessingHints,
     this.stickerPackId,
+    this.occupantId,
   });
   final StanzaError? error;
   final String body;
@@ -128,6 +130,7 @@ class MessageEvent extends XmppEvent {
   final List<MessageProcessingHint>? messageProcessingHints;
   final String? stickerPackId;
   final Map<String, dynamic> other;
+  final OccupantIdData? occupantId;
 }
 
 /// Triggered when a client responds to our delivery receipt request
@@ -264,4 +267,17 @@ class StreamNegotiationsDoneEvent extends XmppEvent {
   /// Flag indicating whether we resumed a previous stream (true) or are in a completely
   /// new stream (false).
   final bool resumed;
+}
+
+class MUCMemberReceivedEvent extends XmppEvent {
+  MUCMemberReceivedEvent(this.mucJid, this.nickname, this.occupantId);
+
+  /// MUC JID which the member belongs to
+  final JID mucJid;
+
+  /// Nickname of the user
+  final String nickname;
+
+  /// Occupant ID of the user
+  final OccupantIdData occupantId;
 }

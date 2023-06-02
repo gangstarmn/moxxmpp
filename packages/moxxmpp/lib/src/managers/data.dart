@@ -6,6 +6,7 @@ import 'package:moxxmpp/src/xeps/xep_0203.dart';
 import 'package:moxxmpp/src/xeps/xep_0359.dart';
 import 'package:moxxmpp/src/xeps/xep_0380.dart';
 import 'package:moxxmpp/src/xeps/xep_0385.dart';
+import 'package:moxxmpp/src/xeps/xep_0421.dart';
 import 'package:moxxmpp/src/xeps/xep_0424.dart';
 import 'package:moxxmpp/src/xeps/xep_0444.dart';
 import 'package:moxxmpp/src/xeps/xep_0446.dart';
@@ -75,5 +76,7 @@ class StanzaHandlerData with _$StanzaHandlerData {
     MessageReactions? messageReactions,
     // The Id of the sticker pack this sticker belongs to
     String? stickerPackId,
+    // Unique occupant ID in message stanza
+    OccupantIdData? occupantId,
   }) = _StanzaHandlerData;
 }

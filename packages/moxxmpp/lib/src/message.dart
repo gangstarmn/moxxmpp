@@ -131,6 +131,7 @@ class MessageManager extends XmppManagerBase {
         stickerPackId: state.stickerPackId,
         other: state.other,
         error: StanzaError.fromStanza(message),
+        occupantId: state.occupantId,
       ),
     );
 

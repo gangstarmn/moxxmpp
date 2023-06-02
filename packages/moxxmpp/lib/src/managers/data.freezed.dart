@@ -71,7 +71,9 @@ mixin _$StanzaHandlerData {
       throw _privateConstructorUsedError; // Reactions data
   MessageReactions? get messageReactions =>
       throw _privateConstructorUsedError; // The Id of the sticker pack this sticker belongs to
-  String? get stickerPackId => throw _privateConstructorUsedError;
+  String? get stickerPackId =>
+      throw _privateConstructorUsedError; // Unique occupant ID in message stanza
+  OccupantIdData? get occupantId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StanzaHandlerDataCopyWith<StanzaHandlerData> get copyWith =>
@@ -111,7 +113,8 @@ abstract class $StanzaHandlerDataCopyWith<$Res> {
       MessageRetractionData? messageRetraction,
       String? lastMessageCorrectionSid,
       MessageReactions? messageReactions,
-      String? stickerPackId});
+      String? stickerPackId,
+      OccupantIdData? occupantId});
 }
 
 /// @nodoc
@@ -154,6 +157,7 @@ class _$StanzaHandlerDataCopyWithImpl<$Res, $Val extends StanzaHandlerData>
     Object? lastMessageCorrectionSid = freezed,
     Object? messageReactions = freezed,
     Object? stickerPackId = freezed,
+    Object? occupantId = freezed,
   }) {
     return _then(_value.copyWith(
       done: null == done
@@ -264,6 +268,10 @@ class _$StanzaHandlerDataCopyWithImpl<$Res, $Val extends StanzaHandlerData>
           ? _value.stickerPackId
           : stickerPackId // ignore: cast_nullable_to_non_nullable
               as String?,
+      occupantId: freezed == occupantId
+          ? _value.occupantId
+          : occupantId // ignore: cast_nullable_to_non_nullable
+              as OccupantIdData?,
     ) as $Val);
   }
 }
@@ -303,7 +311,8 @@ abstract class _$$_StanzaHandlerDataCopyWith<$Res>
       MessageRetractionData? messageRetraction,
       String? lastMessageCorrectionSid,
       MessageReactions? messageReactions,
-      String? stickerPackId});
+      String? stickerPackId,
+      OccupantIdData? occupantId});
 }
 
 /// @nodoc
@@ -344,6 +353,7 @@ class __$$_StanzaHandlerDataCopyWithImpl<$Res>
     Object? lastMessageCorrectionSid = freezed,
     Object? messageReactions = freezed,
     Object? stickerPackId = freezed,
+    Object? occupantId = freezed,
   }) {
     return _then(_$_StanzaHandlerData(
       null == done
@@ -454,6 +464,10 @@ class __$$_StanzaHandlerDataCopyWithImpl<$Res>
           ? _value.stickerPackId
           : stickerPackId // ignore: cast_nullable_to_non_nullable
               as String?,
+      occupantId: freezed == occupantId
+          ? _value.occupantId
+          : occupantId // ignore: cast_nullable_to_non_nullable
+              as OccupantIdData?,
     ));
   }
 }
@@ -484,7 +498,8 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
       this.messageRetraction,
       this.lastMessageCorrectionSid,
       this.messageReactions,
-      this.stickerPackId})
+      this.stickerPackId,
+      this.occupantId})
       : _stanzaIds = stanzaIds,
         _other = other;
 
@@ -595,10 +610,13 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
 // The Id of the sticker pack this sticker belongs to
   @override
   final String? stickerPackId;
+// Unique occupant ID in message stanza
+  @override
+  final OccupantIdData? occupantId;
 
   @override
   String toString() {
-    return 'StanzaHandlerData(done: $done, cancel: $cancel, cancelReason: $cancelReason, stanza: $stanza, retransmitted: $retransmitted, sims: $sims, sfs: $sfs, oob: $oob, originId: $originId, stanzaIds: $stanzaIds, reply: $reply, chatState: $chatState, isCarbon: $isCarbon, deliveryReceiptRequested: $deliveryReceiptRequested, isMarkable: $isMarkable, fun: $fun, funReplacement: $funReplacement, funCancellation: $funCancellation, encrypted: $encrypted, forceEncryption: $forceEncryption, encryptionType: $encryptionType, delayedDelivery: $delayedDelivery, other: $other, messageRetraction: $messageRetraction, lastMessageCorrectionSid: $lastMessageCorrectionSid, messageReactions: $messageReactions, stickerPackId: $stickerPackId)';
+    return 'StanzaHandlerData(done: $done, cancel: $cancel, cancelReason: $cancelReason, stanza: $stanza, retransmitted: $retransmitted, sims: $sims, sfs: $sfs, oob: $oob, originId: $originId, stanzaIds: $stanzaIds, reply: $reply, chatState: $chatState, isCarbon: $isCarbon, deliveryReceiptRequested: $deliveryReceiptRequested, isMarkable: $isMarkable, fun: $fun, funReplacement: $funReplacement, funCancellation: $funCancellation, encrypted: $encrypted, forceEncryption: $forceEncryption, encryptionType: $encryptionType, delayedDelivery: $delayedDelivery, other: $other, messageRetraction: $messageRetraction, lastMessageCorrectionSid: $lastMessageCorrectionSid, messageReactions: $messageReactions, stickerPackId: $stickerPackId, occupantId: $occupantId)';
   }
 
   @override
@@ -652,7 +670,9 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
             (identical(other.messageReactions, messageReactions) ||
                 other.messageReactions == messageReactions) &&
             (identical(other.stickerPackId, stickerPackId) ||
-                other.stickerPackId == stickerPackId));
+                other.stickerPackId == stickerPackId) &&
+            (identical(other.occupantId, occupantId) ||
+                other.occupantId == occupantId));
   }
 
   @override
@@ -684,7 +704,8 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
         messageRetraction,
         lastMessageCorrectionSid,
         messageReactions,
-        stickerPackId
+        stickerPackId,
+        occupantId
       ]);
 
   @JsonKey(ignore: true)
@@ -720,7 +741,8 @@ abstract class _StanzaHandlerData implements StanzaHandlerData {
       final MessageRetractionData? messageRetraction,
       final String? lastMessageCorrectionSid,
       final MessageReactions? messageReactions,
-      final String? stickerPackId}) = _$_StanzaHandlerData;
+      final String? stickerPackId,
+      final OccupantIdData? occupantId}) = _$_StanzaHandlerData;
 
   @override // Indicates to the runner that processing is now done. This means that all
 // pre-processing is done and no other handlers should be consulted.
@@ -786,6 +808,8 @@ abstract class _StanzaHandlerData implements StanzaHandlerData {
   MessageReactions? get messageReactions;
   @override // The Id of the sticker pack this sticker belongs to
   String? get stickerPackId;
+  @override // Unique occupant ID in message stanza
+  OccupantIdData? get occupantId;
   @override
   @JsonKey(ignore: true)
   _$$_StanzaHandlerDataCopyWith<_$_StanzaHandlerData> get copyWith =>
