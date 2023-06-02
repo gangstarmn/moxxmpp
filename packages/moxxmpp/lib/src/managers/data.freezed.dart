@@ -73,7 +73,10 @@ mixin _$StanzaHandlerData {
       throw _privateConstructorUsedError; // The Id of the sticker pack this sticker belongs to
   String? get stickerPackId =>
       throw _privateConstructorUsedError; // Unique occupant ID in message stanza
-  OccupantIdData? get occupantId => throw _privateConstructorUsedError;
+  OccupantIdData? get occupantId =>
+      throw _privateConstructorUsedError; // Flag indicating whether the stanza should be excluded from stream management's
+// resending behaviour
+  bool get excludeFromStreamManagement => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StanzaHandlerDataCopyWith<StanzaHandlerData> get copyWith =>
@@ -114,7 +117,8 @@ abstract class $StanzaHandlerDataCopyWith<$Res> {
       String? lastMessageCorrectionSid,
       MessageReactions? messageReactions,
       String? stickerPackId,
-      OccupantIdData? occupantId});
+      OccupantIdData? occupantId,
+      bool excludeFromStreamManagement});
 }
 
 /// @nodoc
@@ -158,6 +162,7 @@ class _$StanzaHandlerDataCopyWithImpl<$Res, $Val extends StanzaHandlerData>
     Object? messageReactions = freezed,
     Object? stickerPackId = freezed,
     Object? occupantId = freezed,
+    Object? excludeFromStreamManagement = null,
   }) {
     return _then(_value.copyWith(
       done: null == done
@@ -272,6 +277,10 @@ class _$StanzaHandlerDataCopyWithImpl<$Res, $Val extends StanzaHandlerData>
           ? _value.occupantId
           : occupantId // ignore: cast_nullable_to_non_nullable
               as OccupantIdData?,
+      excludeFromStreamManagement: null == excludeFromStreamManagement
+          ? _value.excludeFromStreamManagement
+          : excludeFromStreamManagement // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -312,7 +321,8 @@ abstract class _$$_StanzaHandlerDataCopyWith<$Res>
       String? lastMessageCorrectionSid,
       MessageReactions? messageReactions,
       String? stickerPackId,
-      OccupantIdData? occupantId});
+      OccupantIdData? occupantId,
+      bool excludeFromStreamManagement});
 }
 
 /// @nodoc
@@ -354,6 +364,7 @@ class __$$_StanzaHandlerDataCopyWithImpl<$Res>
     Object? messageReactions = freezed,
     Object? stickerPackId = freezed,
     Object? occupantId = freezed,
+    Object? excludeFromStreamManagement = null,
   }) {
     return _then(_$_StanzaHandlerData(
       null == done
@@ -468,6 +479,10 @@ class __$$_StanzaHandlerDataCopyWithImpl<$Res>
           ? _value.occupantId
           : occupantId // ignore: cast_nullable_to_non_nullable
               as OccupantIdData?,
+      excludeFromStreamManagement: null == excludeFromStreamManagement
+          ? _value.excludeFromStreamManagement
+          : excludeFromStreamManagement // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -499,7 +514,8 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
       this.lastMessageCorrectionSid,
       this.messageReactions,
       this.stickerPackId,
-      this.occupantId})
+      this.occupantId,
+      this.excludeFromStreamManagement = false})
       : _stanzaIds = stanzaIds,
         _other = other;
 
@@ -613,10 +629,15 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
 // Unique occupant ID in message stanza
   @override
   final OccupantIdData? occupantId;
+// Flag indicating whether the stanza should be excluded from stream management's
+// resending behaviour
+  @override
+  @JsonKey()
+  final bool excludeFromStreamManagement;
 
   @override
   String toString() {
-    return 'StanzaHandlerData(done: $done, cancel: $cancel, cancelReason: $cancelReason, stanza: $stanza, retransmitted: $retransmitted, sims: $sims, sfs: $sfs, oob: $oob, originId: $originId, stanzaIds: $stanzaIds, reply: $reply, chatState: $chatState, isCarbon: $isCarbon, deliveryReceiptRequested: $deliveryReceiptRequested, isMarkable: $isMarkable, fun: $fun, funReplacement: $funReplacement, funCancellation: $funCancellation, encrypted: $encrypted, forceEncryption: $forceEncryption, encryptionType: $encryptionType, delayedDelivery: $delayedDelivery, other: $other, messageRetraction: $messageRetraction, lastMessageCorrectionSid: $lastMessageCorrectionSid, messageReactions: $messageReactions, stickerPackId: $stickerPackId, occupantId: $occupantId)';
+    return 'StanzaHandlerData(done: $done, cancel: $cancel, cancelReason: $cancelReason, stanza: $stanza, retransmitted: $retransmitted, sims: $sims, sfs: $sfs, oob: $oob, originId: $originId, stanzaIds: $stanzaIds, reply: $reply, chatState: $chatState, isCarbon: $isCarbon, deliveryReceiptRequested: $deliveryReceiptRequested, isMarkable: $isMarkable, fun: $fun, funReplacement: $funReplacement, funCancellation: $funCancellation, encrypted: $encrypted, forceEncryption: $forceEncryption, encryptionType: $encryptionType, delayedDelivery: $delayedDelivery, other: $other, messageRetraction: $messageRetraction, lastMessageCorrectionSid: $lastMessageCorrectionSid, messageReactions: $messageReactions, stickerPackId: $stickerPackId, occupantId: $occupantId, excludeFromStreamManagement: $excludeFromStreamManagement)';
   }
 
   @override
@@ -672,7 +693,11 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
             (identical(other.stickerPackId, stickerPackId) ||
                 other.stickerPackId == stickerPackId) &&
             (identical(other.occupantId, occupantId) ||
-                other.occupantId == occupantId));
+                other.occupantId == occupantId) &&
+            (identical(other.excludeFromStreamManagement,
+                    excludeFromStreamManagement) ||
+                other.excludeFromStreamManagement ==
+                    excludeFromStreamManagement));
   }
 
   @override
@@ -705,7 +730,8 @@ class _$_StanzaHandlerData implements _StanzaHandlerData {
         lastMessageCorrectionSid,
         messageReactions,
         stickerPackId,
-        occupantId
+        occupantId,
+        excludeFromStreamManagement
       ]);
 
   @JsonKey(ignore: true)
@@ -742,7 +768,8 @@ abstract class _StanzaHandlerData implements StanzaHandlerData {
       final String? lastMessageCorrectionSid,
       final MessageReactions? messageReactions,
       final String? stickerPackId,
-      final OccupantIdData? occupantId}) = _$_StanzaHandlerData;
+      final OccupantIdData? occupantId,
+      final bool excludeFromStreamManagement}) = _$_StanzaHandlerData;
 
   @override // Indicates to the runner that processing is now done. This means that all
 // pre-processing is done and no other handlers should be consulted.
@@ -810,6 +837,9 @@ abstract class _StanzaHandlerData implements StanzaHandlerData {
   String? get stickerPackId;
   @override // Unique occupant ID in message stanza
   OccupantIdData? get occupantId;
+  @override // Flag indicating whether the stanza should be excluded from stream management's
+// resending behaviour
+  bool get excludeFromStreamManagement;
   @override
   @JsonKey(ignore: true)
   _$$_StanzaHandlerDataCopyWith<_$_StanzaHandlerData> get copyWith =>

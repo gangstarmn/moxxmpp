@@ -78,5 +78,8 @@ class StanzaHandlerData with _$StanzaHandlerData {
     String? stickerPackId,
     // Unique occupant ID in message stanza
     OccupantIdData? occupantId,
+    // Flag indicating whether the stanza should be excluded from stream management's
+    // resending behaviour
+    @Default(false) bool excludeFromStreamManagement,
   }) = _StanzaHandlerData;
 }
