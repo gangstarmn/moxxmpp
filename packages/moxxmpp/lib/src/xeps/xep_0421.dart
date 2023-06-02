@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:moxxmpp/moxxmpp.dart';
 
 /// Representation of a <occupant-id /> element.
-class OccupantIdData {
+class OccupantIdData implements StanzaHandlerExtension {
   const OccupantIdData(
     this.id,
   );
@@ -11,7 +11,7 @@ class OccupantIdData {
   /// The unique occupant id.
   final String id;
 
-  XMLNode toXML() {
+  XMLNode toXml() {
     return XMLNode.xmlns(
       tag: 'occupant-id',
       xmlns: stableIdXmlns,
@@ -31,45 +31,60 @@ class OccupantIdManager extends XmppManagerBase {
   @override
   List<StanzaHandler> getIncomingStanzaHandlers() => [
         StanzaHandler(
+          stanzaTag: 'message',
+          callback: _onMessage,
+          // Before the MessageManager
+          priority: -99,
+        ),
+        StanzaHandler(
+          stanzaTag: 'presence',
           tagName: 'occupant-id',
           tagXmlns: occupantIdXmlns,
-          callback: _onOccupantId,
-        )
+          callback: _onPresence,
+          priority: PresenceManager.presenceHandlerPriority + 1,
+        ),
       ];
-
-  @override
-  Future<void> onXmppEvent(XmppEvent event) async {
-    if (event is PresenceReceivedEvent) {
-      unawaited(_onPresence(event));
-    }
-  }
 
   @override
   Future<bool> isSupported() async => true;
 
-  Future<StanzaHandlerData> _onOccupantId(
-    Stanza occupantId,
+  Future<StanzaHandlerData> _onMessage(
+    Stanza message,
     StanzaHandlerData state,
-  ) async =>
-      state.copyWith(
-        occupantId: OccupantIdData(occupantId.attributes['id']! as String),
-      );
-
-  Future<void> _onPresence(PresenceReceivedEvent event) async {
+  ) async {
+    OccupantIdData? occupantId;
     final occupantIdElement =
-        event.presence.firstTag('occupant-id', xmlns: occupantIdXmlns);
-    if (occupantIdElement == null) {
-      return;
+        message.firstTag('occupant-id', xmlns: occupantIdXmlns);
+    // Process the occupant id
+    if (occupantIdElement != null) {
+      occupantId =
+          OccupantIdData(occupantIdElement.attributes['id']! as String);
     }
-    final occupantId = OccupantIdData(
+    state.extensions.set(occupantId!);
+    return state;
+  }
+
+  Future<StanzaHandlerData> _onPresence(
+    Stanza stanza,
+    StanzaHandlerData state,
+  ) async {
+    OccupantIdData? occupantId;
+    final occupantIdElement =
+        stanza.firstTag('occupant-id', xmlns: occupantIdXmlns);
+    if (occupantIdElement == null) {
+      return state;
+    }
+    occupantId = OccupantIdData(
       occupantIdElement.attributes['id']! as String,
     );
+
     getAttributes().sendEvent(
       MUCMemberReceivedEvent(
-        event.jid.toBare(),
-        event.jid.resource,
+        JID.fromString(stanza.from!).toBare(),
+        JID.fromString(stanza.from!).resource,
         occupantId,
       ),
     );
+    return state;
   }
 }
