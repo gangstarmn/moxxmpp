@@ -1,6 +1,11 @@
 import 'dart:async';
-
-import 'package:moxxmpp/moxxmpp.dart';
+import 'package:moxxmpp/src/managers/base.dart';
+import 'package:moxxmpp/src/managers/data.dart';
+import 'package:moxxmpp/src/managers/handlers.dart';
+import 'package:moxxmpp/src/managers/namespaces.dart';
+import 'package:moxxmpp/src/namespaces.dart';
+import 'package:moxxmpp/src/stanza.dart';
+import 'package:moxxmpp/src/stringxml.dart';
 
 /// Representation of a <occupant-id /> element.
 class OccupantIdData implements StanzaHandlerExtension {
@@ -14,7 +19,7 @@ class OccupantIdData implements StanzaHandlerExtension {
   XMLNode toXML() {
     return XMLNode.xmlns(
       tag: 'occupant-id',
-      xmlns: stableIdXmlns,
+      xmlns: occupantIdXmlns,
       attributes: {
         'id': id,
       },
