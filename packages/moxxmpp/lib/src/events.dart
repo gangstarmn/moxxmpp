@@ -260,18 +260,3 @@ class StreamNegotiationsDoneEvent extends XmppEvent {
   /// new stream (false).
   final bool resumed;
 }
-
-/// Triggered when a presence is received from an MUC member
-/// Sends the member information along with occupant ID(XEP 0421)
-class MUCMemberReceivedEvent extends XmppEvent {
-  MUCMemberReceivedEvent(this.mucJid, this.nickname, this.occupantId);
-
-  /// MUC JID which the member belongs to
-  final JID mucJid;
-
-  /// Nickname of the user
-  final String nickname;
-
-  /// Occupant ID of the user
-  final OccupantIdData occupantId;
-}

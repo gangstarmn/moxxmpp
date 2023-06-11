@@ -33,4 +33,3 @@ const stickersManager = 'org.moxxmpp.stickersmanager';
 const entityCapabilitiesManager = 'org.moxxmpp.entitycapabilities';
 const occupantIdManager = 'org.moxxmpp.occupantidmanager';
 const messageProcessingHintManager = 'org.moxxmpp.messageprocessinghint';
-const occupantIdManager = 'org.moxxmpp.occupantidmanager';
