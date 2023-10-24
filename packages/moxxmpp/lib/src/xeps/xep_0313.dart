@@ -12,6 +12,12 @@ import 'package:moxxmpp/src/xeps/xep_0203.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:uuid/uuid.dart';
 
+/// Logical XOR between [a] and [b].
+// TODO(Unknown): Move to moxlib?
+bool _xor(bool a, bool b) {
+  return !a && b || a && !b;
+}
+
 abstract class MAMError {}
 
 class UnknownMAMError extends MAMError {}
@@ -98,10 +104,17 @@ class MessageArchiveManagementManager extends XmppManagerBase {
     );
   }
 
-  /// Query the MAM archive located at [archive]. If [beforeId] is specified, then the
+  /// Query the MAM archive located at [archive].
+  ///
+  /// If [beforeId] is specified, then the
   /// query will try to query only messages that were sent before the stanza with id [beforeId].
   /// [afterId] works similary, but for specifies a lower (time) bound. Note that the archive
-  /// must support "urn:xmpp:mam:2#extended", which this method does not check for.
+  /// must support "urn:xmpp:mam:2#extended", which this method does not check for. Cannot be specified
+  /// with [ids].
+  ///
+  /// If [ids] is specified, then query only for those message ids. Cannot be specified with either [beforeId]
+  /// or [afterId].
+  ///
   /// If [pageSize] is specified, then the archive will return, at most, [pageSize] messages.
   ///
   /// Returns either a [MAMError], in case the request was unsuccessful, or the number of message
@@ -110,15 +123,24 @@ class MessageArchiveManagementManager extends XmppManagerBase {
     JID archive, {
     String? beforeId,
     String? afterId,
+    List<String>? ids,
     int? pageSize,
   }) async {
+    assert(
+      _xor(
+        beforeId != null || afterId != null,
+        ids != null,
+      ),
+      'beforeId/afterId cannot be specified with ids',
+    );
+
     final uuid = const Uuid().v4();
     final key = (archive, uuid);
     await _lock.synchronized(() {
       _pendingQueries[key] = 0;
     });
     DataForm? dataForm;
-    if (beforeId != null || afterId != null) {
+    if (beforeId != null || afterId != null || ids != null) {
       dataForm = DataForm(
         type: 'submit',
         instructions: [],
@@ -142,6 +164,13 @@ class MessageArchiveManagementManager extends XmppManagerBase {
               varAttr: 'after-id',
               options: [],
               values: [afterId],
+              isRequired: false,
+            ),
+          if (ids != null)
+            DataFormField(
+              varAttr: 'ids',
+              options: [],
+              values: ids,
               isRequired: false,
             ),
         ],
